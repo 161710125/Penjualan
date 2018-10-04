@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Penjualan;
+use App\Barang;
 use Illuminate\Http\Request;
+use Yajra\Datatables\Html\Builder;
+use Yajra\DataTables\Datatables;
 
 class PenjualanController extends Controller
 {
@@ -12,9 +15,25 @@ class PenjualanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function json(){
+        $shop = Penjualan::all();
+        // $suplier = $shop->Barang1->nama;
+        // dd($suplier);
+        return Datatables::of($shop)
+        ->addColumn('nama_bar',function($shop){
+                return $shop->Barang1['nama'];
+            })
+
+        ->addColumn('action',function($shop){
+                return '<center><a href="#" class="btn btn-xs btn-primary edit" data-id="'.$shop->id.'"><i class="glyphicon glyphicon-edit"></i> Edit</a> | <a href="#" class="btn btn-xs btn-danger delete" id="'.$shop->id.'"><i class="glyphicon glyphicon-remove"></i> Delete</a></center>';
+            })
+        ->rawColumns(['nama_bar','action'])->make(true);
+    }
+
     public function index()
     {
-        //
+        $barang = Barang::all();
+        return view('shop.index',compact('barang'));
     }
 
     /**

@@ -14,7 +14,7 @@
 
                     <div class="form-group">
                         <label>Nama :</label>
-                        <select id="id_suplier" name="id_suplier" class="form-control">
+                        <select id="id_suplier" name="id_suplier" class="form-control selecttt" style="width: 568px">
                             <option selected disabled>Pilih Suplier</option>
                             @foreach($suplier as $data)
                             <option value="{{ $data->id }}">{{ $data->nama }}</option>

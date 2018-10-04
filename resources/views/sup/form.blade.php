@@ -19,7 +19,7 @@
 
                      <div class="form-group">
               <label for="asal_kota">Asal Kota:</label>
-              <select id="asal_kota" name="asal_kota" class="form-control">
+              <select id="asal_kota" name="asal_kota" class="form-control selecttt" style="width: 568px">
           <option selected disabled>Pilih Kota</option>
           <option value="Aceh Barat">Aceh Barat</option>
           <option value="Aceh Barat Daya">Aceh Barat Daya</option>

@@ -6,6 +6,7 @@
       <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" />
       <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css">
       <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+      <link rel="icon" type="image/x-icon" href="{{asset('/Image/12-512.png')}}"/>
    </head>
    <body>
       <nav class="navbar navbar-default navbar-fixed-top">
@@ -23,7 +24,7 @@
                <ul class="nav navbar-nav">
                <li><a href="{{url('bar')}}">Barang</a></li>
                <li class="active"><a href="{{url('sup')}}">Suplier</a></li>
-               <li><a href="#contact">Penjualan</a></li>
+               <li><a href="{{url('shop')}}">Penjualan</a></li>
             </div>
          </div>
       </nav>
@@ -70,6 +71,7 @@
               $('#sup_form')[0].reset();
               $('#aksi').val('Tambah');
               $('.modal-title').text('Tambah Data');
+              $('.selecttt').select2();
               state = "insert";
             });
          
@@ -210,7 +212,7 @@
                 $('#id').val(data.id);
                 $('#nama').val(data.nama);
                 $('#asal_kota').val(data.asal_kota);
-                $('.select').select2();
+                $('.selecttt').select2();
                 $('#student_id').val(edit);
                 $('#supModal').modal('show');
                 $('#aksi').val('Edit');

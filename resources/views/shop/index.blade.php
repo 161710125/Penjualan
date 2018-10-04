@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
    <head>
-      <title>Barang</title>
+      <title>Shop</title>
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
       <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" />
       <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css">
@@ -22,9 +22,9 @@
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                <ul class="nav navbar-nav">
-               <li class="active"><a href="{{url('bar')}}">Barang</a></li>
+               <li><a href="{{url('bar')}}">Barang</a></li>
                <li><a href="{{url('sup')}}">Suplier</a></li>
-               <li><a href="{{url('shop')}}">Penjualan</a></li>
+               <li class="active"><a href="{{url('shop')}}">Penjualan</a></li>
             </div>
          </div>
       </nav>
@@ -37,11 +37,12 @@
          <thead>
             <tr>
                <th>ID</th>
-               <th width="300px">Nama Suplier</th>
-               <th>Nama</th>
-               <th>Merk</th>
-               <th>Harga Satuan</th>
-               <th>Stok</th>
+               <th>Kode Barang</th>
+               <th>Tanggal Jual</th>
+               <th>Nama Pelanggan</th>
+               <th>Nama Barang</th>
+               <th>Jumlah</th>
+               <th>Total</th>
                <th width="200px">
                   <center>Action</center>
                </th>
@@ -54,20 +55,21 @@
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
       <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
-      @include('barang.form')
+      @include('sup.form')
       <script type="text/javascript">
          $(function() {
          $('#stud').DataTable({
          processing: true,
          serverSide: true,
-         ajax: '/bar_json',
+         ajax: '/shop_json',
          columns: [
             { data: 'id', name: 'id' },
-            { data: 'nama_sup'},
-            { data: 'nama', name: 'nama' },
-            { data: 'merk', name: 'merk' },
-            { data: 'harga_satuan', name: 'harga_satuan' },
-            { data: 'stok', name: 'stok' },
+            { data: 'kode_penjualan', name: 'kode_penjualan' },
+            { data: 'tgl_jual', name: 'tgl_jual' },
+            { data: 'nama_pelanggan', name: 'nama_pelanggan' },
+            { data: 'nama_bar' },
+            { data: 'jumlah', name: 'jumlah' },
+            { data: 'total_bayar', name: 'total_bayar' },
             { data: 'action', orderable:false, searchable: false}
          ],
          "lengthMenu": [[-1, 10, 5, 2], ["All", 10, 5, 2]]
@@ -80,6 +82,8 @@
               $('.selecttt').select2();
               state = "insert";
             });
+         
+         $('.select').select2();
          $('#supModal').on('hidden.bs.modal', function(e){
           $(this).find('#sup_form')[0].reset();
           $('span.has-error').text('')
@@ -96,7 +100,7 @@
              if (state == 'insert'){
              $.ajax({
                type: "POST",
-               url: "{{url ('/add_bar')}}",
+               url: "{{url ('/add_sup')}}",
                // data: $('#sup_form').serialize(),
                data: new FormData(this),
                contentType: false,
@@ -133,7 +137,7 @@
            }else {
             $.ajax({
                type: "POST",
-               url: "{{url ('/bar/edit')}}"+ '/' + $('#id').val(),
+               url: "{{url ('/sup/edit')}}"+ '/' + $('#id').val(),
                // data: $('#sup_form').serialize(),
                data: new FormData(this),
                contentType: false,
@@ -167,7 +171,8 @@
                }
              }); 
            }
-      })
+             
+           });
            $(document).on('click', '.delete', function(){
          var dele = $(this).attr('id');
          if(confirm("Apakah Anda Yakin Menghapus Data Ini?"))
@@ -200,7 +205,7 @@
          }
          }); 
          });
-$(document).on('click', '.edit', function(){
+         $(document).on('click', '.edit', function(){
          var edit = $(this).data('id');
          $('#form_output').html('');
          $.ajax({
@@ -213,11 +218,8 @@ $(document).on('click', '.edit', function(){
               console.log(data);
                 state = "update";
                 $('#id').val(data.id);
-                $('#id_suplier').val(data.id_suplier);
                 $('#nama').val(data.nama);
-                $('#merk').val(data.merk);
-                $('#harga_satuan').val(data.harga_satuan);
-                $('#stok').val(data.stok);
+                $('#asal_kota').val(data.asal_kota);
                 $('.selecttt').select2();
                 $('#student_id').val(edit);
                 $('#supModal').modal('show');

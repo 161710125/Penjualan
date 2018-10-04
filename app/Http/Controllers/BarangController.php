@@ -1,13 +1,10 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use App\Barang;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Html\Builder;
 use Yajra\DataTables\Datatables;
 use App\Suplier;
-
 class BarangController extends Controller
 {
     /**
@@ -15,29 +12,25 @@ class BarangController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-
     public function json(){
         $bar = Barang::all();
         // $suplier = $bar->Suplier1->nama;
         // dd($suplier);
         return Datatables::of($bar)
         ->addColumn('nama_sup',function($bar){
-                return $bar->Suplier->nama;
+                return $bar->Suplier['nama'];
             })
 
         ->addColumn('action',function($bar){
                 return '<center><a href="#" class="btn btn-xs btn-primary edit" data-id="'.$bar->id.'"><i class="glyphicon glyphicon-edit"></i> Edit</a> | <a href="#" class="btn btn-xs btn-danger delete" id="'.$bar->id.'"><i class="glyphicon glyphicon-remove"></i> Delete</a></center>';
             })
-
         ->rawColumns(['nama_sup','action'])->make(true);
     }
-
     public function index()
     {
         $suplier = Suplier::all();
         return view('barang.index',compact('suplier'));
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -47,7 +40,6 @@ class BarangController extends Controller
     {
         //
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -67,7 +59,6 @@ class BarangController extends Controller
             'harga_satuan.required'=>'Asal Kota tidak boleh kosong',
             'stok.required'=>'Asal Kota tidak boleh kosong'
             ]);
-
             $data = new Barang;
             $data->id_suplier = $request->id_suplier;
             $data->nama = $request->nama;
@@ -77,7 +68,6 @@ class BarangController extends Controller
             $data->save();
             return response()->json(['success'=>true]);
     }
-
     /**
      * Display the specified resource.
      *
@@ -88,18 +78,17 @@ class BarangController extends Controller
     {
         //
     }
-
     /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Barang  $barang
      * @return \Illuminate\Http\Response
      */
-    public function edit(Barang $barang)
+    public function edit($id)
     {
-        //
+        $bar = Barang::findOrFail($id);
+        return $bar;
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -107,11 +96,28 @@ class BarangController extends Controller
      * @param  \App\Barang  $barang
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Barang $barang)
+    public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'nama' => 'required',
+            'merk'=>'required',
+            'harga_satuan'=>'required',
+            'stok'=>'required'
+            ],[
+            'nama.required'=>'Nama tidak boleh kosong',
+            'merk.required'=>'Asal Kota tidak boleh kosong',
+            'harga_satuan.required'=>'Asal Kota tidak boleh kosong',
+            'stok.required'=>'Asal Kota tidak boleh kosong'
+            ]);
+            $data = Barang::find($id);
+            $data->id_suplier = $request->id_suplier;
+            $data->nama = $request->nama;
+            $data->merk = $request->merk;
+            $data->harga_satuan = $request->harga_satuan;
+            $data->stok = $request->stok;
+            $data->save();
+            return response()->json(['success'=>true]);
     }
-
     /**
      * Remove the specified resource from storage.
      *
@@ -121,5 +127,14 @@ class BarangController extends Controller
     public function destroy(Barang $barang)
     {
         //
+    }
+
+    public function removedata(Request $request)
+    {
+        $sis = Barang::find($request->input('id'));
+        if($sis->delete())
+        {
+            echo 'Data Deleted';
+        }
     }
 }
