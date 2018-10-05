@@ -55,9 +55,9 @@ class BarangController extends Controller
             'stok'=>'required'
             ],[
             'nama.required'=>'Nama tidak boleh kosong',
-            'merk.required'=>'Asal Kota tidak boleh kosong',
-            'harga_satuan.required'=>'Asal Kota tidak boleh kosong',
-            'stok.required'=>'Asal Kota tidak boleh kosong'
+            'merk.required'=>'Merk tidak boleh kosong',
+            'harga_satuan.required'=>'Harga Satuan tidak boleh kosong',
+            'stok.required'=>'Stok tidak boleh kosong'
             ]);
             $data = new Barang;
             $data->id_suplier = $request->id_suplier;
@@ -105,11 +105,11 @@ class BarangController extends Controller
             'stok'=>'required'
             ],[
             'nama.required'=>'Nama tidak boleh kosong',
-            'merk.required'=>'Asal Kota tidak boleh kosong',
-            'harga_satuan.required'=>'Asal Kota tidak boleh kosong',
-            'stok.required'=>'Asal Kota tidak boleh kosong'
+            'merk.required'=>'Merk tidak boleh kosong',
+            'harga_satuan.required'=>'Harga Satuan tidak boleh kosong',
+            'stok.required'=>'Stok tidak boleh kosong'
             ]);
-            $data = Barang::find($id);
+            $data = Barang::findOrFail($id);
             $data->id_suplier = $request->id_suplier;
             $data->nama = $request->nama;
             $data->merk = $request->merk;

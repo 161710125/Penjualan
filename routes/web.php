@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('temp');
 });
 
 
@@ -33,3 +33,7 @@ Route::post('add_bar', 'BarangController@store');
 // Penjualan
 Route::resource('shop', 'PenjualanController');
 Route::get('shop_json', 'PenjualanController@json');
+Route::get('delete', 'PenjualanController@removedata')->name('delete');
+Route::get('getedit/{id}', 'PenjualanController@edit');
+Route::post('shop/edit/{id}', 'PenjualanController@update');
+Route::post('add_shop', 'PenjualanController@store');

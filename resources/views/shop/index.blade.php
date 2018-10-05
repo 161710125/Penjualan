@@ -55,7 +55,7 @@
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
       <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
-      @include('sup.form')
+      @include('shop.form')
       <script type="text/javascript">
          $(function() {
          $('#stud').DataTable({
@@ -69,7 +69,7 @@
             { data: 'nama_pelanggan', name: 'nama_pelanggan' },
             { data: 'nama_bar' },
             { data: 'jumlah', name: 'jumlah' },
-            { data: 'total_bayar', name: 'total_bayar' },
+            { data: 'hehe' },
             { data: 'action', orderable:false, searchable: false}
          ],
          "lengthMenu": [[-1, 10, 5, 2], ["All", 10, 5, 2]]
@@ -100,7 +100,7 @@
              if (state == 'insert'){
              $.ajax({
                type: "POST",
-               url: "{{url ('/add_sup')}}",
+               url: "{{url ('/add_shop')}}",
                // data: $('#sup_form').serialize(),
                data: new FormData(this),
                contentType: false,
@@ -137,7 +137,7 @@
            }else {
             $.ajax({
                type: "POST",
-               url: "{{url ('/sup/edit')}}"+ '/' + $('#id').val(),
+               url: "{{url ('/shop/edit')}}"+ '/' + $('#id').val(),
                // data: $('#sup_form').serialize(),
                data: new FormData(this),
                contentType: false,
@@ -218,8 +218,11 @@
               console.log(data);
                 state = "update";
                 $('#id').val(data.id);
-                $('#nama').val(data.nama);
-                $('#asal_kota').val(data.asal_kota);
+                $('#kode_penjualan').val(data.kode_penjualan);
+                $('#tgl_jual').val(data.tgl_jual);
+                $('#nama_pelanggan').val(data.nama_pelanggan);
+                $('#id_barang').val(data.id_barang);
+                $('#jumlah').val(data.jumlah);
                 $('.selecttt').select2();
                 $('#student_id').val(edit);
                 $('#supModal').modal('show');
