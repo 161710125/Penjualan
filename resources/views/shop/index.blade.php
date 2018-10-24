@@ -1,234 +1,277 @@
-<!DOCTYPE html>
-<html>
-   <head>
-      <title>Shop</title>
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
-      <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" />
-      <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css">
-      <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
-      <link rel="icon" type="image/x-icon" href="{{asset('/Image/12-512.png')}}"/>
-   </head>
-   <body>
-      <nav class="navbar navbar-default navbar-fixed-top">
-         <div class="container">
-            <div class="navbar-header">
-               <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-               <span class="sr-only">Toggle navigation</span>
-               <span class="icon-bar"></span>
-               <span class="icon-bar"></span>
-               <span class="icon-bar"></span>
-               </button>
-               <a class="navbar-brand" href="#">Rob Store</a>
+@extends('temp')
+@section('content')
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Data Tables Penjualan</h1>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header" style="margin-bottom: 15px">
+              <button type="button" name="add" id="Tambah" class="btn btn-primary">Add Data</button>
             </div>
-            <div id="navbar" class="navbar-collapse collapse">
-               <ul class="nav navbar-nav">
-               <li><a href="{{url('bar')}}">Barang</a></li>
-               <li><a href="{{url('sup')}}">Suplier</a></li>
-               <li class="active"><a href="{{url('shop')}}">Penjualan</a></li>
+              <div class="panel panel-body">
+                 <table id="jual_table" class="table table-bordered" style="width:100%">
+                    <thead>
+                       <tr>
+                          <th>Kode Penjualan</th>
+                          <th>Tanggal Jual</th>
+                          <th>Nama Pelanggan</th>
+                          <th>Nama Barang</th>
+                          <th>Merk Barang</th>
+                          <th>Kategori Barang</th>
+                          <th>Jumlah Pesanan</th>
+                          <th>Total Yang Harus Dibayar</th>
+                          <th>Action</th>
+                       </tr>
+                    </thead>
+                 </table>
+              </div>
             </div>
-         </div>
-      </nav>
-      <br>
-      <div class="container">
-      <br />
-      <br />
-      <button type="button" name="add" id="Tambah" class="btn btn-primary pull-right">Tambah</button><br><br>
-      <table id="stud" class="table table-bordered" style="width:100%">
-         <thead>
-            <tr>
-               <th>ID</th>
-               <th>Kode Barang</th>
-               <th>Tanggal Jual</th>
-               <th>Nama Pelanggan</th>
-               <th>Nama Barang</th>
-               <th>Jumlah</th>
-               <th>Total</th>
-               <th width="200px">
-                  <center>Action</center>
-               </th>
-            </tr>
-         </thead>
-      </table>
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-      <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
-      <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script> 
-      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
-      @include('shop.form')
+        </div>
+      </div>
+    </section>
+  </div>
+  @endsection
+  @push('scripts')
+
+  @include('shop.form')
       <script type="text/javascript">
-         $(function() {
-         $('#stud').DataTable({
-         processing: true,
-         serverSide: true,
-         ajax: '/shop_json',
-         columns: [
-            { data: 'id', name: 'id' },
-            { data: 'kode_penjualan', name: 'kode_penjualan' },
-            { data: 'tgl_jual', name: 'tgl_jual' },
-            { data: 'nama_pelanggan', name: 'nama_pelanggan' },
-            { data: 'nama_bar' },
-            { data: 'jumlah', name: 'jumlah' },
-            { data: 'hehe' },
-            { data: 'action', orderable:false, searchable: false}
-         ],
-         "lengthMenu": [[-1, 10, 5, 2], ["All", 10, 5, 2]]
-         })
-         $('#Tambah').click(function(){
-              $('#supModal').modal('show');
-              $('#sup_form')[0].reset();
-              $('#aksi').val('Tambah');
-              $('.modal-title').text('Tambah Data');
-              $('.selecttt').select2();
-              state = "insert";
+         $(document).ready(function() {
+
+          $('#jual_table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: '/shop_json',
+            columns:[
+                  { data: 'kode_penjualan', name: 'kode_penjualan' },
+                  { data: 'tgl_jual', name: 'tgl_jual' },
+                  { data: 'nama_pelanggan', name: 'nama_pelanggan'},
+                  { data: 'subbar'},
+                  { data: 'jual' },
+                  { data: 'kategori'},
+                  { data: 'jumlah', name: 'jumlah' },
+                  { data: 'hehe', name: 'hehe'},
+                  { data: 'action', orderable: false, searchable: false }
+              ],
             });
-         
-         $('.select').select2();
-         $('#supModal').on('hidden.bs.modal', function(e){
-          $(this).find('#sup_form')[0].reset();
-          $('span.has-error').text('')
-          $('.form-group.has-error').removeClass('has-error');
-         });
-         
-           $('#sup_form').submit(function(e){
-             $.ajaxSetup({
-               header: {
-                 'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')
-               }
-             });
-             e.preventDefault();
-             if (state == 'insert'){
-             $.ajax({
-               type: "POST",
-               url: "{{url ('/add_shop')}}",
-               // data: $('#sup_form').serialize(),
-               data: new FormData(this),
-               contentType: false,
-               processData: false,
-               dataType: 'json',
-               success: function (data){
-                 console.log(data);
-                 $('#supModal').modal('hide');
-                 $('#aksi').val('Tambah');
-                 $('#stud').DataTable().ajax.reload();
-                    swal({
-                                title: 'Success!',
-                                text: data.message,
-                                type: 'success',
-                                timer: '3500'
-                            })
-               },
-               error: function (data){
-                $('input').on('keydown keypress keyup click change', function(){
+
+           $('#Tambah').click(function(){
+
+            $('#jualModal').modal('show');
+            $('.modal-title').text('Add Data');
+            $('#aksi').val('Simpan');
+            $('.select-dua').select2();
+            state = "insert";
+
+            });
+
+           $('#jualModal').on('hidden.bs.modal',function(e){
+            $(this).find('#jual_form')[0].reset();
+            $('span.has-error').text('');
+            $('.form-group.has-error').removeClass('has-error');
+            });
+
+          $('#jual_form').submit(function(e){
+            $.ajaxSetup({
+              header: {
+                'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')
+              }
+            });
+
+            //menambah kan data
+            e.preventDefault();
+
+            if (state == 'insert'){
+
+              $.ajax({
+                type: "POST",
+                url: "{{url ('/add_shop')}}",
+                data: new FormData(this),
+               // data: $('#student_form').serialize(),
+                contentType: false,
+                processData: false,
+                dataType: 'json',
+
+                success: function (data){
+                  console.log(data);
+                  swal({
+                      title:'Success Tambah!',
+                      text:'Data Berhasil Disimpan',
+                      type:'success',
+                      timer:'2000'
+                    });
+                  $('#jualModal').modal('hide');
+                  $('#jual_table').DataTable().ajax.reload();
+                },
+
+                //menampilkan validasi error
+                error: function (data){
+
+                  $('input').on('keydown keypress keyup click change', function(){
                   $(this).parent().removeClass('has-error');
                   $(this).next('.help-block').hide()
                 });
-                var coba = new Array();
-                console.log(data.responseJSON.errors);
-                $.each(data.responseJSON.errors,function(name, value){
-                  console.log(name);
-                  coba.push(name);
-                  $('input[name='+name+']').parent().addClass('has-error');
-                  $('input[name='+name+']').next('.help-block').show().text(value);
-                });
-                $('input[name='+coba[0]+']').focus();
-               }
-             }); 
-           }else {
-            $.ajax({
-               type: "POST",
-               url: "{{url ('/shop/edit')}}"+ '/' + $('#id').val(),
-               // data: $('#sup_form').serialize(),
-               data: new FormData(this),
-               contentType: false,
-               processData: false,
-               dataType: 'json',
-               success: function (data){
-                 console.log(data);
-                 $('#supModal').modal('hide');
-                 $('#stud').DataTable().ajax.reload();
-                 swal({
-                                title: 'Success!',
-                                text: data.message,
-                                type: 'success',
-                                timer: '3500'
-                            })
-               },
-               error: function (data){
-                $('input').on('keydown keypress keyup click change', function(){
-                  $(this).parent().removeClass('has-error');
-                  $(this).next('.help-block').hide()
-                });
-                var coba = new Array();
-                console.log(data.responseJSON.errors);
-                $.each(data.responseJSON.errors,function(name, value){
-                  console.log(name);
-                  coba.push(name);
-                  $('input[name='+name+']').parent().addClass('has-error');
-                  $('input[name='+name+']').next('.help-block').show().text(value);
-                });
-                $('input[name='+coba[0]+']').focus();
-               }
-             }); 
-           }
-             
-           });
-           $(document).on('click', '.delete', function(){
-         var dele = $(this).attr('id');
-         if(confirm("Apakah Anda Yakin Menghapus Data Ini?"))
-         {
-            $.ajax({
-                url:"{{route('delete')}}",
-                method:"get",
-                data:{id:dele},
-                success:function(data)
-                {
-                  $('#stud').DataTable().ajax.reload();
-                    swal({
-                                title: 'Success!',
-                                text: data.message,
-                                type: 'success',
-                                timer: '3500'
-                            })
-         
+
+                  var coba = new Array();
+                  console.log(data.responseJSON.errors);
+                  $.each(data.responseJSON.errors,function(name, value){
+                    console.log(name);
+                    coba.push(name);
+
+                    $('input[name='+name+']').parent().addClass('has-error');
+                    $('input[name='+name+']').next('.help-block').show().text(value);
+                  });
+
+                  $('input[name='+coba[0]+']').focus();
                 }
-            })
-         }
-         else
-         {
-          swal({
-            title: 'Batal',
-            text: 'Data tidak jadi dihapus',
-            type: 'error'
-          })
-            return false;
-         }
-         }); 
-         });
-         $(document).on('click', '.edit', function(){
-         var edit = $(this).data('id');
-         $('#form_output').html('');
-         $.ajax({
-            url:"{{url('getedit')}}" + '/' + edit,
-            method:'get',
-            data:{id:edit},
-            dataType:'json',
-            success:function(data)
+              });
+            }
+            else 
             {
-              console.log(data);
+               //mengupdate data yang telah diedit
+              $.ajax({
+                type: "POST",
+                url: "{{url ('/shop/edit')}}"+ '/' + $('#id').val(),
+                // data: $('#student_form').serialize(),
+                data: new FormData(this),
+                contentType: false,
+                processData: false,
+                dataType: 'json',
+                success: function (data){
+                  console.log(data);
+                  $('#jualModal').modal('hide');
+                  swal({
+                    title: 'Update Success',
+                    text: data.message,
+                    type: 'success',
+                    timer: '3500'
+                  })
+                  $('#jual_table').DataTable().ajax.reload();
+                },
+                error: function (data){
+                  $('#jualModal').modal('show');
+                  swal({
+                    title: 'Update error',
+                    text: 'tidak terpenuhi',
+                    type: 'error',
+                    timer: '3500'
+                  })
+                  $('input').on('keydown keypress keyup click change', function(){
+                  $(this).parent().removeClass('has-error');
+                  $(this).next('.help-block').hide()
+                });
+                  var coba = new Array();
+                  console.log(data.responseJSON.errors);
+                  $.each(data.responseJSON.errors,function(name, value){
+                    console.log(name);
+                    coba.push(name);
+                    $('input[name='+name+']').parent().addClass('has-error');
+                    $('input[name='+name+']').next('.help-block').show().text(value);
+                  });
+                  $('input[name='+coba[0]+']').focus();
+                }
+             });
+            }
+         });
+
+          //mengambil data yang ingin diedit
+          $(document).on('click', '.edit', function(){
+            var bebas = $(this).data('id');
+            $('#form_tampil').html('');
+            $.ajax({
+              url:"{{url('shopedit')}}" + '/' + bebas,
+              method:'get',
+              data:{id:bebas},
+              dataType:'json',
+              success:function(data){
+                console.log(data);
                 state = "update";
+
                 $('#id').val(data.id);
                 $('#kode_penjualan').val(data.kode_penjualan);
                 $('#tgl_jual').val(data.tgl_jual);
                 $('#nama_pelanggan').val(data.nama_pelanggan);
                 $('#id_barang').val(data.id_barang);
+                $('#kat_id').val(data.kat_id);
+                $('#sub_id').val(data.sub_id);
                 $('#jumlah').val(data.jumlah);
-                $('.selecttt').select2();
-                $('#student_id').val(edit);
-                $('#supModal').modal('show');
-                $('#aksi').val('Edit');
-                $('.modal-title').text('Edit Data');
-            },
-         })
-         });
-      </script>
+                $('.select-dua').select2();
+
+
+                  $('#jualModal').modal('show');
+                  $('#aksi').val('Update');
+                  $('.modal-title').text('Edit Data');
+                }
+              });
+          });
+
+          $(document).on('hide.bs.modal','#jualModal', function() {
+            $('#jual_table').DataTable().ajax.reload();
+          });
+
+          //proses delete data
+          $(document).on('click', '.delete', function(){
+            var bebas = $(this).attr('id');
+              if (confirm("Yakin Dihapus ?")) {
+
+                $.ajax({
+                  url: "{{route('deleteshop')}}",
+                  method: "get",
+                  data:{id:bebas},
+                  success: function(data){
+                    swal({
+                      title:'Success Delete!',
+                      text:'Data Berhasil Dihapus',
+                      type:'success',
+                      timer:'1500'
+                    });
+                    $('#jual_table').DataTable().ajax.reload();
+                  }
+                })
+              }
+              else
+              {
+                swal({
+                  title:'Batal',
+                  text:'Data Tidak Jadi Dihapus',
+                  type:'error',
+                  });
+                return false;
+              }
+            });
+
+          $(document).ready(function() {
+            $('select[name="kat_id"]').on('change', function() {
+              var katID = $(this).val();
+              if(katID) {
+                $.ajax({
+                  url: '/myform/ajax/'+katID,
+                  type: "GET",
+                  dataType: "json",
+                  success:function(data) {
+
+                    $('select[name="sub_id"]').empty();
+                    $.each(data, function(key, value) {
+                      $('select[name="sub_id"]').append('<option value="'+ key +'">'+ value +'</option>');
+                    });
+                  }
+                });
+              }else{
+                $('select[name="sub_id"]').empty();
+              }
+            });
+          });
+        });
+</script>
+@endpush

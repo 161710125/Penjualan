@@ -5,6 +5,8 @@ use Illuminate\Http\Request;
 use Yajra\Datatables\Html\Builder;
 use Yajra\DataTables\Datatables;
 use App\Suplier;
+use App\Kategori;
+use DB;
 class BarangController extends Controller
 {
     /**
@@ -15,22 +17,41 @@ class BarangController extends Controller
     public function json(){
         $bar = Barang::all();
         // $suplier = $bar->Suplier1->nama;
-        // dd($suplier);
+        // dd($suplier); 
         return Datatables::of($bar)
+        ->addColumn('kategori', function($bar){
+            return $bar->kategoribarang->nama_kategori;
+        })
+        ->addColumn('parent', function($bar){
+            return $bar->subbarang->nama_kategori;
+        })
         ->addColumn('nama_sup',function($bar){
                 return $bar->Suplier['nama'];
             })
+        ->addColumn('formatharga', function($bar){
+            return number_format($bar->harga_satuan,2,',','.');
+        })
 
         ->addColumn('action',function($bar){
                 return '<center><a href="#" class="btn btn-xs btn-primary edit" data-id="'.$bar->id.'"><i class="glyphicon glyphicon-edit"></i> Edit</a> | <a href="#" class="btn btn-xs btn-danger delete" id="'.$bar->id.'"><i class="glyphicon glyphicon-remove"></i> Delete</a></center>';
             })
-        ->rawColumns(['nama_sup','action'])->make(true);
+        ->rawColumns(['nama_sup','action','formatharga','kategori','parent'])->make(true);
     }
     public function index()
     {
         $suplier = Suplier::all();
-        return view('barang.index',compact('suplier'));
+        $barangkategori = Kategori::where('parent_id','=',null)->get();
+        return view('barang.index', compact('suplier','barangkategori'));
     }
+
+    public function myformAjax($id)
+    {
+        $sub = DB::table("kategoris")
+                    ->where("parent_id",$id)
+                    ->pluck("nama_kategori","id");
+        return json_encode($sub);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -49,19 +70,24 @@ class BarangController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'nama' => 'required',
+            'id_suplier' => 'required',
+            'kat_id' => 'required',
+            'id_parent' => 'required',
             'merk'=>'required',
             'harga_satuan'=>'required',
             'stok'=>'required'
             ],[
-            'nama.required'=>'Nama tidak boleh kosong',
+            'id_suplier.required' => 'suplier Tidak Boleh Kosong',
+            'kat_id.required' => 'Kategori tidak boleh Kosong',
+            'id_parent.required' => 'Nama Barang Harus Diisi',
             'merk.required'=>'Merk tidak boleh kosong',
             'harga_satuan.required'=>'Harga Satuan tidak boleh kosong',
             'stok.required'=>'Stok tidak boleh kosong'
             ]);
             $data = new Barang;
             $data->id_suplier = $request->id_suplier;
-            $data->nama = $request->nama;
+            $data->kat_id = $request->kat_id;
+            $data->id_parent = $request->id_parent;
             $data->merk = $request->merk;
             $data->harga_satuan = $request->harga_satuan;
             $data->stok = $request->stok;
@@ -99,18 +125,24 @@ class BarangController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'nama' => 'required',
+            'id_suplier'=>'required',
+            'kat_id' => 'required',
+            'id_parent' => 'required',
             'merk'=>'required',
             'harga_satuan'=>'required',
             'stok'=>'required'
             ],[
-            'nama.required'=>'Nama tidak boleh kosong',
+            'id_suplier.required' => 'id_suplier Tidak Boleh Kosong',
+            'kat_id.required' => 'Harus Diisi',
+            'id_parent.required' => 'Harus Diisi',
             'merk.required'=>'Merk tidak boleh kosong',
             'harga_satuan.required'=>'Harga Satuan tidak boleh kosong',
             'stok.required'=>'Stok tidak boleh kosong'
             ]);
             $data = Barang::findOrFail($id);
             $data->id_suplier = $request->id_suplier;
+            $barang->kat_id = $request->kat_id;
+            $barang->id_parent = $request->id_parent;
             $data->nama = $request->nama;
             $data->merk = $request->merk;
             $data->harga_satuan = $request->harga_satuan;

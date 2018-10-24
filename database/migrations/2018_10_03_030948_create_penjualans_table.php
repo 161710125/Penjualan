@@ -19,6 +19,8 @@ class CreatePenjualansTable extends Migration
             $table->date('tgl_jual');
             $table->string('nama_pelanggan');
             $table->integer('id_barang')->unsigned();
+            $table->integer('kat_id')->unsigned();
+            $table->integer('sub_id')->unsigned();
             $table->integer('jumlah');
             $table->integer('total_bayar');
             $table->timestamps();

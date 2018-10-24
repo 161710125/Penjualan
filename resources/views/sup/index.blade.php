@@ -1,56 +1,51 @@
-<!DOCTYPE html>
-<html>
-   <head>
-      <title>Suplier</title>
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
-      <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" />
-      <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css">
-      <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
-      <link rel="icon" type="image/x-icon" href="{{asset('/Image/12-512.png')}}"/>
-   </head>
-   <body>
-      <nav class="navbar navbar-default navbar-fixed-top">
-         <div class="container">
-            <div class="navbar-header">
-               <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-               <span class="sr-only">Toggle navigation</span>
-               <span class="icon-bar"></span>
-               <span class="icon-bar"></span>
-               <span class="icon-bar"></span>
-               </button>
-               <a class="navbar-brand" href="#">Rob Store</a>
+@extends('temp')
+@section('content')
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Data Tables Suplier</h1> 
+          </div>
+          <!-- <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Data Tables</li>
+            </ol>
+          </div> -->
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <button type="button" name="add" id="Tambah" class="btn btn-primary">Add Data</button>
             </div>
-            <div id="navbar" class="navbar-collapse collapse">
-               <ul class="nav navbar-nav">
-               <li><a href="{{url('bar')}}">Barang</a></li>
-               <li class="active"><a href="{{url('sup')}}">Suplier</a></li>
-               <li><a href="{{url('shop')}}">Penjualan</a></li>
+            <!-- /.card-header -->
+            <div class="card-body">
+              <table id="stud" class="table table-bordered" style="width:100%">
+                  <thead>
+                     <tr>
+                        <th>Nama Suplier</th>
+                        <th>Jenis Kelamin</th>
+                        <th>Asal Kota</th>
+                        <th>Action</th>
+                     </tr>
+                  </thead>
+               </table>
             </div>
-         </div>
-      </nav>
-      <br>
-      <div class="container">
-      <br />
-      <br />
-      <button type="button" name="add" id="Tambah" class="btn btn-primary pull-right">Tambah</button><br><br>
-      <table id="stud" class="table table-bordered" style="width:100%">
-         <thead>
-            <tr>
-               <th>ID</th>
-               <th width="300px">Nama Suplier</th>
-               <th>Asal Kota</th>
-               <th width="200px">
-                  <center>Action</center>
-               </th>
-            </tr>
-         </thead>
-      </table>
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-      <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
-      <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script> 
-      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+      @endsection
+      @push('scripts')
       @include('sup.form')
       <script type="text/javascript">
          $(function() {
@@ -201,7 +196,7 @@
          var edit = $(this).data('id');
          $('#form_output').html('');
          $.ajax({
-            url:"{{url('getedit')}}" + '/' + edit,
+            url:"{{url('editsup')}}" + '/' + edit,
             method:'get',
             data:{id:edit},
             dataType:'json',
@@ -221,3 +216,4 @@
          })
          });
       </script>
+      @endpush

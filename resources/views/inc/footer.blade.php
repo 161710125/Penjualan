@@ -1,13 +1,7 @@
-<!-- Start Footer area-->
-    <div class="footer-copyright-area">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="footer-copy-right">
-                        <p>Copyright © 2018 <a href="https://themeforest.net/user/lucidtemplate">lucidtemplate</a> All rights reserved.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+<footer class="main-footer">
+    <strong>Copyright &copy; 2018 <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
+    All rights reserved.
+    <div class="float-right d-none d-sm-inline-block">
+      <b>Version</b> 3.0.0-alpha
     </div>
-    <!-- End Footer area-->
+  </footer>
