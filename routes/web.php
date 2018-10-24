@@ -33,7 +33,7 @@ Route::post('add_sup', 'SuplierController@store');
 // Barang
 Route::resource('bar', 'BarangController');
 Route::get('bar_json', 'BarangController@json');
-Route::get('delete', 'BarangController@removedata')->name('delete');
+Route::get('deletebar', 'BarangController@removedata')->name('deletebar');
 Route::get('baredit/{id}', 'BarangController@edit');
 Route::post('bar/edit/{id}', 'BarangController@update');
 Route::post('add_bar', 'BarangController@store');
@@ -47,7 +47,7 @@ Route::post('add_shop', 'PenjualanController@store');
 // Kategori
 Route::resource('kategori', 'KategoriController');
 Route::get('kat_json', 'KategoriController@json');
-Route::get('delete', 'KategoriController@removedata')->name('delete');
+Route::get('deletekat', 'KategoriController@removedata')->name('deletekat');
 Route::get('katedit/{id}', 'KategoriController@edit');
 Route::post('kat/edit/{id}', 'KategoriController@update');
 Route::post('add_kat', 'KategoriController@store');

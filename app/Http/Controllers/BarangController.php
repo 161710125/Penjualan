@@ -113,7 +113,19 @@ class BarangController extends Controller
     public function edit($id)
     {
         $bar = Barang::findOrFail($id);
-        return $bar;
+        $kategori = Kategori::where('parent_id', $bar->kat_id)->get();
+        $sub = '';
+        foreach ($kategori as $key => $value) {
+            if ($value->id == $bar->id_parent) {
+                $selected = 'selected';
+            }else{
+                $selected = '';
+            }
+            $sub .= '<option value="'.$value->id.'">' .$value->nama_kategori. '</option>';
+        }
+        $data ['bar']=$bar;
+        $data ['sub']=$sub;
+        return $data;
     }
     /**
      * Update the specified resource in storage.
@@ -141,9 +153,8 @@ class BarangController extends Controller
             ]);
             $data = Barang::findOrFail($id);
             $data->id_suplier = $request->id_suplier;
-            $barang->kat_id = $request->kat_id;
-            $barang->id_parent = $request->id_parent;
-            $data->nama = $request->nama;
+            $data->kat_id = $request->kat_id;
+            $data->id_parent = $request->id_parent;
             $data->merk = $request->merk;
             $data->harga_satuan = $request->harga_satuan;
             $data->stok = $request->stok;

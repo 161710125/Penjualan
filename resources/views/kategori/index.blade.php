@@ -165,7 +165,7 @@
          if(confirm("Apakah Anda Yakin Menghapus Data Ini?"))
          {
             $.ajax({
-                url:"{{route('delete')}}",
+                url:"{{route('deletekat')}}",
                 method:"get",
                 data:{id:dele},
                 success:function(data)

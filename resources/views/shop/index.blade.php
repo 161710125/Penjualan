@@ -198,14 +198,14 @@
                 console.log(data);
                 state = "update";
 
-                $('#id').val(data.id);
-                $('#kode_penjualan').val(data.kode_penjualan);
-                $('#tgl_jual').val(data.tgl_jual);
-                $('#nama_pelanggan').val(data.nama_pelanggan);
-                $('#id_barang').val(data.id_barang);
-                $('#kat_id').val(data.kat_id);
-                $('#sub_id').val(data.sub_id);
-                $('#jumlah').val(data.jumlah);
+                $('#id').val(data.shop.id);
+                $('#kode_penjualan').val(data.shop.kode_penjualan);
+                $('#tgl_jual').val(data.shop.tgl_jual);
+                $('#nama_pelanggan').val(data.shop.nama_pelanggan);
+                $('#id_barang').val(data.shop.id_barang);
+                $('#kat_id').val(data.shop.kat_id);
+                $('#sub_id').append(data.sub);
+                $('#jumlah').val(data.shop.jumlah);
                 $('.select-dua').select2();
 
 

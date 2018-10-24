@@ -125,7 +125,19 @@ class PenjualanController extends Controller
     public function edit($id)
     {
         $shop = Penjualan::findOrFail($id);
-        return $shop;
+        $kategori = Kategori::where('parent_id', $shop->kat_id)->get();
+        $sub = '';
+        foreach ($kategori as $key => $value) {
+            if ($value->id == $shop->sub_id) {
+                $selected = 'selected';
+            }else{
+                $selected = '';
+            }
+            $sub .= '<option value="'.$value->id.'">' .$value->nama_kategori. '</option>';
+        }
+        $data ['shop']=$shop;
+        $data ['sub']=$sub;
+        return $data;
     }
 
     /**

@@ -31,8 +31,8 @@
               <table id="stud" class="table table-bordered" style="width:100%">
                   <thead>
                      <tr>
+                        <th>ID</th>
                         <th>Nama Suplier</th>
-                        <th>Jenis Kelamin</th>
                         <th>Asal Kota</th>
                         <th>Action</th>
                      </tr>

@@ -194,13 +194,13 @@
           console.log(data);
           state = "update";
 
-          $('#id').val(data.id);
-          $('#id_suplier').val(data.id_suplier);
-          $('#kat_id').val(data.kat_id);
-          $('#id_parent').val(data.id_parent);
-          $('#merk').val(data.merk);
-          $('#harga_satuan').val(data.harga_satuan);
-          $('#stok').val(data.stok);
+          $('#id').val(data.bar.id);
+          $('#id_suplier').val(data.bar.id_suplier);
+          $('#kat_id').val(data.bar.kat_id);
+          $('select[name="id_parent"]').append(data.sub);
+          $('#merk').val(data.bar.merk);
+          $('#harga_satuan').val(data.bar.harga_satuan);
+          $('#stok').val(data.bar.stok);
           $('.select-dua').select2();
 
 
@@ -213,6 +213,7 @@
 
     $(document).on('hide.bs.modal','#barangModal', function() {
       $('#bar_table').DataTable().ajax.reload();
+      $('#id_parent').find('option').remove();
     });
 
     //proses delete data
@@ -221,7 +222,7 @@
         if (confirm("Yakin Dihapus ?")) {
 
           $.ajax({
-            url: "{{route('delete')}}",
+            url: "{{route('deletebar')}}",
             method: "get",
             data:{id:bebas},
             success: function(data){
