@@ -9,6 +9,8 @@ use Yajra\Datatables\Html\Builder;
 use Yajra\DataTables\Datatables;
 use App\Kategori;
 use PDF;
+use Excel;
+use DB;
 
 class PenjualanController extends Controller
 {
@@ -232,7 +234,20 @@ class PenjualanController extends Controller
         $shop = Penjualan::limit(1000)->get();
         $pdf = PDF::loadView('shop.pdf', compact('shop'));
         $pdf->setPaper('a4', 'potrait');
-        return $pdf->stream();
+        return $pdf->download('penjualan.pdf');
+        // return $pdf->stream();
         // return view('siswa.pdf', compact('siswa'));
+    }
+
+    public function downloadExcel($type)
+    {
+        $data = Penjualan::get()->toArray();
+            
+        return Excel::create('Data_Penjualan', function($excel) use ($data) {
+            $excel->sheet('mySheet', function($sheet) use ($data)
+            {
+                $sheet->fromArray($data);
+            });
+        })->download($type);
     }
 }

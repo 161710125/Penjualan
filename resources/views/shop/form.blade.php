@@ -50,6 +50,7 @@
                   <div class="form-group">
                      <label>Nama Barang Berdasarkan Kategori</label>
                      <select name="sub_id" id="sub_id" class="form-control" style="width:468px">
+                      <option disabled selected>Pilih Nama Barang</option>
                      </select>
                      <span class="help-block has-error sub_id_error"></span>
                   </div>

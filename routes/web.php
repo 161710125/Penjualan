@@ -44,7 +44,10 @@ Route::get('deleteshop', 'PenjualanController@removedata')->name('deleteshop');
 Route::get('shopedit/{id}', 'PenjualanController@edit');
 Route::post('shop/edit/{id}', 'PenjualanController@update');
 Route::post('add_shop', 'PenjualanController@store');
+//Penjualan Export PDF
 Route::get('/exportpdf', 'PenjualanController@exportPDF')->name('siswa.export');
+//Penjualan Export Excel
+Route::get('downloadExcel/{type}', 'PenjualanController@downloadExcel');
 // Kategori
 Route::resource('kategori', 'KategoriController');
 Route::get('kat_json', 'KategoriController@json');

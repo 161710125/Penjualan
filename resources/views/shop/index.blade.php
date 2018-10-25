@@ -19,7 +19,8 @@
           <div class="card">
             <div class="card-header" style="margin-bottom: 15px">
               <button type="button" name="add" id="Tambah" class="btn btn-primary">Add Data</button>
-              <button type="button" class="btn btn-primary pull-left"><a href="{{ url('exportpdf') }}"><font color="white">Download Data</font></a></button>
+              <button type="button" class="btn btn-success pull-left"><a href="{{ url('exportpdf') }}"><font color="white">Download PDF</font></a></button>
+              <a href="{{ url('downloadExcel/xls') }}"><button class="btn btn-info">Download Excel</button></a>
             </div>
               <div class="panel panel-body">
                  <table id="jual_table" class="table table-bordered" style="width:100%">
@@ -219,6 +220,7 @@
 
           $(document).on('hide.bs.modal','#jualModal', function() {
             $('#jual_table').DataTable().ajax.reload();
+            $('#sub_id').find('option').remove();
           });
 
           //proses delete data
