@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Yajra\Datatables\Html\Builder;
 use Yajra\DataTables\Datatables;
 use App\Kategori;
+use PDF;
 
 class PenjualanController extends Controller
 {
@@ -225,5 +226,13 @@ class PenjualanController extends Controller
         {
             echo 'Data Deleted';
         }
+    }
+
+    public function exportPDF(){
+        $shop = Penjualan::limit(1000)->get();
+        $pdf = PDF::loadView('shop.pdf', compact('shop'));
+        $pdf->setPaper('a4', 'potrait');
+        return $pdf->stream();
+        // return view('siswa.pdf', compact('siswa'));
     }
 }

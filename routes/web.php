@@ -44,6 +44,7 @@ Route::get('deleteshop', 'PenjualanController@removedata')->name('deleteshop');
 Route::get('shopedit/{id}', 'PenjualanController@edit');
 Route::post('shop/edit/{id}', 'PenjualanController@update');
 Route::post('add_shop', 'PenjualanController@store');
+Route::get('/exportpdf', 'PenjualanController@exportPDF')->name('siswa.export');
 // Kategori
 Route::resource('kategori', 'KategoriController');
 Route::get('kat_json', 'KategoriController@json');
